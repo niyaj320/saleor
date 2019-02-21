@@ -287,9 +287,6 @@ class DraftOrderLineDelete(BaseMutation):
         if order.status != OrderStatus.DRAFT:
             cls.add_error(
                 errors, 'id', 'Only draft orders can be edited.')
-        if not line.variant:
-            cls.add_error(
-                errors, None, 'Order line without variant can not be deleted.')
         if not errors:
             db_id = line.id
             delete_order_line(line)

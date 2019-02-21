@@ -751,22 +751,6 @@ def test_require_draft_order_when_removing_lines(
     assert data['errors']
 
 
-def test_draft_order_remove_with_non_existing_product(
-        draft_order, staff_api_client, permission_manage_orders):
-    query = DRAFT_ORDER_LINE_DELETE_MUTATION
-    order = draft_order
-    line = order.lines.first()
-    variant = line.variant
-    variant.delete()
-    line_id = graphene.Node.to_global_id('OrderLine', line.id)
-    variables = {'id': line_id}
-    response = staff_api_client.post_graphql(
-        query, variables, permissions=[permission_manage_orders])
-    content = get_graphql_content(response)
-    data = content['data']['draftOrderLineDelete']
-    assert data['errors']
-
-
 def test_order_update(
         staff_api_client, permission_manage_orders, order_with_lines,
         graphql_address_data):
